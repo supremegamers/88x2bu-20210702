@@ -32,6 +32,11 @@ EXTRA_CFLAGS += -DCONFIG_LED_ENABLE
 EXTRA_CFLAGS += -Wno-address
 EXTRA_CFLAGS += -Wframe-larger-than=1648
 
+# gcc-13
+EXTRA_CFLAGS += -Wno-stringop-overread
+EXTRA_CFLAGS += -Wno-enum-conversion
+EXTRA_CFLAGS += -Wno-int-in-bool-context
+
 GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
 ifeq ($(GCC_VER_49),1)
 EXTRA_CFLAGS += -Wno-date-time	# Fix compile error && warning on gcc 4.9 and later
@@ -56,11 +61,17 @@ EXTRA_CFLAGS += -DRHEL8
 ifeq ($(shell test $(RHEL_SVER) -ge 477; echo $$?),0)
 EXTRA_CFLAGS += -DRHEL88
 endif
+ifeq ($(shell test $(RHEL_SVER) -ge 513; echo $$?),0)
+EXTRA_CFLAGS += -DRHEL89
+endif
 endif
 
 ifeq (${RHEL_VER},9)
 ifeq ($(shell test $(RHEL_SVER) -ge 284; echo $$?),0)
 EXTRA_CFLAGS += -DRHEL92 -DRHEL88
+endif
+ifeq ($(shell test $(RHEL_SVER) -ge 362; echo $$?),0)
+EXTRA_CFLAGS += -DRHEL89
 endif
 endif
 endif
@@ -1374,20 +1385,8 @@ ifeq ($(CONFIG_PLATFORM_AUTODETECT), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 
-SUBARCH := $(shell uname -m)
-
-ifeq ($(SUBARCH), aarch64)
-SUBARCH := arm64
-endif
-
-ifeq ($(SUBARCH), armv7l)
-SUBARCH := arm
-endif
-
-ifeq ($(SUBARCH), armv6l)
-SUBARCH := arm
-endif
-
+#SUBARCH := $(shell uname -m)
+SUBARCH := $(shell uname -m | sed -e "s/i.86/i386/; s/ppc/powerpc/; s/armv.l/arm/; s/aarch64/arm64/; s/riscv.*/riscv/;")
 ARCH ?= $(SUBARCH)
 
 CROSS_COMPILE ?=
