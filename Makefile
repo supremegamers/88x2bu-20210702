@@ -33,7 +33,7 @@ EXTRA_CFLAGS += -Wno-address
 EXTRA_CFLAGS += -Wframe-larger-than=1648
 
 # gcc-13
-EXTRA_CFLAGS += -Wno-stringop-overread
+#EXTRA_CFLAGS += -Wno-stringop-overread
 EXTRA_CFLAGS += -Wno-enum-conversion
 EXTRA_CFLAGS += -Wno-int-in-bool-context
 
