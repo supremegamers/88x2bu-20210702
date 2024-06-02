@@ -19,6 +19,8 @@ EXTRA_CFLAGS += -Wno-misleading-indentation
 EXTRA_CFLAGS += -Wno-implicit-fallthrough
 #EXTRA_CFLAGS += -Wno-return-type
 #EXTRA_CFLAGS += -Wno-discarded-qualifiers
+EXTRA_CFLAGS += -Wno-missing-prototypes
+EXTRA_CFLAGS += -Wno-missing-declarations
 
 # Activates Concurrent Mode if uncommented
 #EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
@@ -72,6 +74,9 @@ EXTRA_CFLAGS += -DRHEL92 -DRHEL88
 endif
 ifeq ($(shell test $(RHEL_SVER) -ge 362; echo $$?),0)
 EXTRA_CFLAGS += -DRHEL89
+endif
+ifeq ($(shell test $(RHEL_SVER) -ge 427; echo $$?),0)
+EXTRA_CFLAGS += -DRHEL94
 endif
 endif
 endif
@@ -152,7 +157,7 @@ endif
 CONFIG_RTW_DEBUG = y
 # default log level is _DRV_INFO_ = 4,
 # please refer to "How_to_set_driver_debug_log_level.doc" to set the available level.
-CONFIG_RTW_LOG_LEVEL = 1
+CONFIG_RTW_LOG_LEVEL = 0
 
 # enable /proc/net/rtlxxxx/ debug interfaces
 CONFIG_PROC_DEBUG = n
@@ -2537,7 +2542,8 @@ sign:
 	@mokutil --import MOK.der
 	@$(KSRC)/scripts/sign-file sha256 MOK.priv MOK.der 88x2bu.ko
 
-sign-install: sign install
+sign-install:
+	sign install
 
 backup_rtlwifi:
 	@echo "Making backup rtlwifi drivers"

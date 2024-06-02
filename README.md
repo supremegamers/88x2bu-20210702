@@ -63,14 +63,14 @@ the hardware to test the above.
 ### Compatible Kernels
 
 - Kernels: 4.19 - 5.11 (Realtek)
-- Kernels: 5.12 - 6.7  (community support)
+- Kernels: 5.12 - 6.9  (community support)
 
 Note: Kernels earlier than 4.19 may work but are not tested or
 supported.
 
 ### Tested Compilers
 
-- gcc 10, 11, 12 and 13
+- gcc 11, 12 and 13
 
 ### Tested Linux Distributions
 
@@ -101,7 +101,7 @@ which can be provided via PR or message in Issues.
 
 - [Void Linux](https://voidlinux.org/) (kernel 5.18)
 
-- RHEL 8.4, 8.6, 8.8, 8.9, 9.1, 9.2 and 9.3 
+- RHEL 8.4, 8.6, 8.8, 8.9, 9.1, 9.2, 9.3 and 9.4 
 
 Note: Red Hat Enterprise Linux (RHEL) and distros based on RHEL are
 supported by Red Hat devs due to the way kernel patches are handled in
